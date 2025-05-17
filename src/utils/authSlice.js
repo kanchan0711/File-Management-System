@@ -1,22 +1,102 @@
 // authSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { auth } from "../config/firebase"; // adjust the path as needed
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
-const initialState = {
-  user: null,
+// Async Thunks
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      return {
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        displayName: userCredential.user.displayName,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async ({ email, password, name }, thunkAPI) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+      await updateProfile(userCredential.user, {
+        displayName: name,
+      });
+
+      return {
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        displayName: name,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const observeUser = (callback) => {
+  return onAuthStateChanged(auth, (user) => {
+    if (user) {
+      callback(user);
+    } else {
+      callback(null);
+    }
+  });
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    user: null,
+    loading: false,
+    error: null,
+    isAuthenticated: false
+  },
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-    },
-    clearUser: (state) => {
+    logoutUser: (state) => {
       state.user = null;
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { setUser, clearUser } = authSlice.actions;
+export const { logoutUser, setUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,7 +1,5 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBAAV9FPsO8gE7dNySvpXZaTQWGoY98Pwc",
@@ -13,6 +11,7 @@ const firebaseConfig = {
   measurementId: "G-C8NKTTZXL3"
 };
 
-
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
+
+export { auth };
