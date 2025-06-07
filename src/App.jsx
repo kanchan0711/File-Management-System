@@ -31,7 +31,7 @@ function App() {
   if (loading) return <div className="text-center p-4">Loading...</div>; // Prevents route jump on refresh
 
   return (
-    <div className='bg-gradient-to-br from-blue-100 via-white to-purple-200 h-screen'>
+    <div className='bg-gradient-to-br from-blue-100 via-white to-purple-200 '>
     <Router>
       <Navbar />
       {/* <Dashboard/> */}

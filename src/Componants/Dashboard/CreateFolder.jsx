@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createFolder } from "../../utils/fileFolderSlice";
 
@@ -7,11 +7,14 @@ const CreateFolder = ({setIsCreateFolderClose}) => {
     const user = useSelector((store) => store.auth)
     // console.log(user)
     const[folderName, setFolderName] = useState("")
+    const modalRef = useRef()
 
     const dispatch = useDispatch()
-    const checkFolderExist = (name) =>{
-        const isFolderExist = folderdetails.userFolders.find((folder) => folder === name)
-        if (isFolderExist) return true
+    const checkFolderExist = (folderName) =>{
+        const isFolderExist = folderdetails.userFolders.find((folder) => folder.name === folderName)
+        if (isFolderExist) {
+          alert(folderName, " already exist")
+          return true}
         else return false
     }
     
@@ -34,7 +37,9 @@ const CreateFolder = ({setIsCreateFolderClose}) => {
                   }
                   dispatch(createFolder(data))
                   console.log(data)
+                  setIsCreateFolderClose(false)
                   alert("forlder created successfully" , folder)
+                  
                 }else{
                   console.log("111")
                 }
@@ -49,7 +54,7 @@ const CreateFolder = ({setIsCreateFolderClose}) => {
   return (
   
     <div className="fixed inset-0 pt-14 bg-black/20 flex justify-center z-50">
-      <div className="h-52 w-96 bg-white rounded-lg p-5">
+      <div ref={modalRef} className="h-52 w-96 bg-white rounded-lg p-5">
         <div className="flex justify-between">
           <h1 className="font-semibold text-2xl text-black">Create Folder</h1>
           <div

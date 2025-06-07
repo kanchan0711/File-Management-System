@@ -15,8 +15,8 @@ const ShowItems = () => {
         <div className="text-center"> Loading...</div>
       ) : (
         <>
-          <Items items={userFolders} title="Created Folders" />
-          {/* <Items items={file} title="Created Files" /> */}
+          <Items items={userFolders} type="folder" title="Created Folders"/>
+          <Items items={file} type="file" title="Created Files"/>
         </>
       )}
     </>

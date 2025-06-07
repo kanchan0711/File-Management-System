@@ -17,10 +17,18 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <Link to={"/dashboard"}>
-              <button className="btn">Dashboard</button>
+            <button className="px-4 py-2 rounded-sm border border-green-700 bg-gradient-to-r from-[#E5FFFB] via-[#F5FBFE] to-white relative text-sm font-medium">
+  <span className="font-bold  text-green-700">
+    Dashboard</span>
+</button>
+              {/* <button className="btn">Dashboard</button> */}
             </Link>
             <Link to={"/loginSignup"}>
-              <button className="btn ml-2">Logout</button>
+            <button className="px-4 ml-2 py-2 rounded-sm border border-blue-500 bg-gradient-to-r from-[#E5FFFB] via-[#F5FBFE] to-white relative text-sm font-medium">
+  <span className="font-bold  text-blue-600 ">
+Logout  </span>
+</button>
+              {/* <button className="btn ml-2">Logout</button> */}
             </Link>
           </>
         ) : (
