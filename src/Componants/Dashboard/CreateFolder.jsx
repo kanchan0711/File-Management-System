@@ -1,71 +1,53 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createFolder } from "../../utils/fileFolderSlice";
 
 const CreateFolder = ({setIsCreateFolderClose}) => {
-    const userFolder = useSelector((store) => store.fileFolder.userFolders)
-    console.log(userFolder)
+    const folderdetails = useSelector((store) => store.fileFolder)
+    const user = useSelector((store) => store.auth)
+    // console.log(user)
     const[folderName, setFolderName] = useState("")
 
+    const dispatch = useDispatch()
     const checkFolderExist = (name) =>{
-        const isFolderExist = userFolder.find((folder) => folder === name)
+        const isFolderExist = folderdetails.userFolders.find((folder) => folder === name)
         if (isFolderExist) return true
-        else return
+        else return false
     }
-
+    
+   
     const handleSubmit = (e) => {
         e.preventDefault();
         const folder = folderName.trim();
         
-            if(folder){
-                if(isFolderExist){
-                    alert(folder, " is already exist")
+            if(folder.length > 3){
+                if(!checkFolderExist(folder)){
+                  const data = {
+                    createdAt: new Date().toISOString(),
+                    userId: user.user.uid,
+                    createdBy: user.user.displayName,
+                    name: folder,
+                    parent: folderdetails.currentFolder === "root"? []: ["parent folder name"],
+                    path: folderdetails.currentFolder,
+                    lastAccessed: null,
+                    updatedAt: new Date().toISOString()                   
+                  }
+                  dispatch(createFolder(data))
+                  console.log(data)
+                  alert("forlder created successfully" , folder)
+                }else{
+                  console.log("111")
                 }
-          alert("Folder is created by the name of " + folder);
-          setIsCreateFolderClose(false);
+          
           // Optional: reset folderName if needed
-          // setFolderName("");
+          // seetFolderName("");
+        }else{
+          alert("forlder name sould be more then 3 charector")
         }
       };
 
   return (
-    // <div className="fixed inset-0 bg-black/10 bg-opacity-50 flex  justify-center z-50">
-    //   <div className="bg-white w- p-6 rounded-2xl shadow-xl w-full max-w-sm">
-    //     <h2 className="text-xl font-semibold mb-4">Login</h2>
-    //     <form onSubmit={handleSubmit} className="space-y-4">
-    //       <input
-    //         type="email"
-    //         placeholder="Email"
-    //         className="w-full px-3 py-2 border rounded"
-    //         value={email}
-    //         onChange={(e) => setEmail(e.target.value)}
-    //         required
-    //       />
-    //       <input
-    //         type="password"
-    //         placeholder="Password"
-    //         className="w-full px-3 py-2 border rounded"
-    //         value={password}
-    //         onChange={(e) => setPassword(e.target.value)}
-    //         required
-    //       />
-    //       <div className="flex justify-between mt-4">
-    //         <button
-    //           type="button"
-    //           onClick={closeModal}
-    //           className="px-4 py-2 bg-gray-300 rounded"
-    //         >
-    //           Cancel
-    //         </button>
-    //         <button
-    //           type="submit"
-    //           className="px-4 py-2 bg-blue-600 text-white rounded"
-    //         >
-    //           Login
-    //         </button>
-    //       </div>
-    //     </form>
-    //   </div>
-    // </div>
+  
     <div className="fixed inset-0 pt-14 bg-black/20 flex justify-center z-50">
       <div className="h-52 w-96 bg-white rounded-lg p-5">
         <div className="flex justify-between">

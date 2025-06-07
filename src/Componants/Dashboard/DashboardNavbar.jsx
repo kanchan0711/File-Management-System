@@ -5,7 +5,7 @@ import CreateFolder from "./CreateFolder"
 const DashboardNavbar = () => {
   const [isCreteFolderOpen, setIsCreateFolderClose] = useState(false)
     return (
-        <div className="h-20 mb-5 w-full px-20 bg-white flex justify-between items-center">
+        <div className="h-20 mb-5 w-full px-20  flex justify-between items-center">
           
                 <div className="text-black font-semibold">
                     <h1>Root</h1>

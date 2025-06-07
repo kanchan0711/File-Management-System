@@ -5,13 +5,15 @@ import Navbar from './Componants/Navabr';
 import LoginSignUP from './Componants/LoginSignUp';
 import Dashbord from './Componants/Dashboard';
 import { logoutUser, observeUser, setUser } from './utils/authSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import DashboardNavbar from './Componants/Dashboard/DashboardNavbar';
 import Dashboard from './Componants/Dashboard';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = observeUser((user) => {
@@ -20,17 +22,19 @@ function App() {
       } else {
         dispatch(logoutUser());
       }
+      setLoading(false);
     });
-  
+
     return () => unsubscribe();
   }, []);
-  
+
+  if (loading) return <div className="text-center p-4">Loading...</div>; // Prevents route jump on refresh
 
   return (
-    <div className='bg-white '>
+    <div className='bg-gradient-to-br from-blue-100 via-white to-purple-200 h-screen'>
     <Router>
       <Navbar />
-      <Dashboard/>
+      {/* <Dashboard/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/loginSignup' element= {<LoginSignUP/>} />

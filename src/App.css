@@ -1,2 +1,18 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+.bg-style-1 {
+    @apply bg-gradient-to-br from-blue-200 via-white to-pink-100;
+  }
+  .bg-style-2 {
+    @apply bg-gradient-to-tr from-gray-800 to-gray-900;
+  }
+  .bg-style-3 {
+    @apply bg-[url('/backgrounds/mesh-1.svg')] bg-cover bg-no-repeat;
+  }
+  .bg-style-4 {
+    @apply bg-gradient-to-b from-purple-300 to-indigo-400;
+  }
+  

@@ -7,10 +7,10 @@ const Navbar = () => {
 
   return (
     <div className=" ">
-    <div className="navbar bg-white border-b-[1px] border-gray-200">
+    <div className="navbar bg-transparent ">
       <div className="navbar-start">
         <div className="dropdown"></div>
-        <h1 className=" text-xl text-black">File-Managemen-System</h1>
+        <h1 className=" text-2xl  font-bold bg-gradient-to-r font-bold from-[#d744eb] to-[#0128A0] bg-clip-text text-transparent">File-Managemen-System</h1>
       </div>
 
       <div className="navbar-end">
@@ -25,7 +25,8 @@ const Navbar = () => {
           </>
         ) : (
           <Link to={"/loginSignup"}>
-            <button className="btn">Login</button>
+<button className="btn btn-dash btn-primary">
+Login</button>
           </Link>
         )}
       </div>

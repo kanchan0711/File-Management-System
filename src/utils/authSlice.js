@@ -1,18 +1,25 @@
 // authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../config/firebase"; // adjust the path as needed
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 // Async Thunks
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async ({ email, password }, thunkAPI) => {
+  async ({ name, email, password }, thunkAPI) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      const user = userCredential.user; // ✅ Define 'user' here
+
+      await updateProfile(user, {
+        displayName: name,
+      });
+
       return {
-        email: userCredential.user.email,
-        uid: userCredential.user.uid,
-        displayName: userCredential.user.displayName,
+        email: user.email,
+        uid: user.uid,
+        displayName: user.displayName, // This now includes the updated name
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -65,6 +72,7 @@ const authSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
+      state.isAuthenticated = true;
     }
   },
   extraReducers: (builder) => {
