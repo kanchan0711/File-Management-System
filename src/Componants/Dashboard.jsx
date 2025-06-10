@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import DashboardNavbar from "./Dashboard/DashboardNavbar";
 import ShowItems from "./Dashboard/ShowItems";
 import { getFolders } from "../utils/fileFolderSlice"; // Adjust import path
+import  Folders  from "./Dashboard/Folders";
 
 const Dashboard = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -26,7 +27,10 @@ const userFolders = useSelector((state) => state.fileFolder.userFolders);
   return (
     <>
       <DashboardNavbar />
-      <ShowItems  />
+      <Routes>
+        <Route path ="" element={<ShowItems/>}/>
+        <Route path = "/folder/:folderId" element = {<Folders/>}/>
+      </Routes>
     </>
   );
 };

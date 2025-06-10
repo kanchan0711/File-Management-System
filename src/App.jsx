@@ -31,14 +31,15 @@ function App() {
   if (loading) return <div className="text-center p-4">Loading...</div>; // Prevents route jump on refresh
 
   return (
-    <div className='bg-gradient-to-br from-blue-100 via-white to-purple-200 '>
+    <div className='bg-gradient-to-br from-blue-100 via-white to-purple-200 min-h-screen '>
     <Router>
       <Navbar />
       {/* <Dashboard/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/loginSignup' element= {<LoginSignUP/>} />
-        <Route path='/dashboard' element={<Dashbord/>} />
+        <Route path='/dashboard/*' element={<Dashbord/>} />
+        
       </Routes>
     </Router>
     </div>

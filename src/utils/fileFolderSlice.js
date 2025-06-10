@@ -36,7 +36,7 @@ const fileFolderSlice = createSlice({
   name: "fileAndFolder",
   initialState: {
     isLoading: false,
-    currentFolder: "", 
+    currentFolder: "root", 
     userFiles: [],
     userFolders: [],
     adminFolders: [],

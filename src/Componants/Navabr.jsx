@@ -6,11 +6,11 @@ const Navbar = () => {
   console.log(isAuthenticated);
 
   return (
-    <div className=" ">
+    <div className=" bg-blue-50/95 sticky top-0 shadow-black">
     <div className="navbar bg-transparent ">
       <div className="navbar-start">
         <div className="dropdown"></div>
-        <h1 className=" text-2xl  font-bold bg-gradient-to-r font-bold from-[#d744eb] to-[#0128A0] bg-clip-text text-transparent">File-Managemen-System</h1>
+        <h1 className=" text-2xl   bg-gradient-to-r font-bold from-[#d744eb] to-[#0128A0] bg-clip-text text-transparent">File-Managemen-System</h1>
       </div>
 
       <div className="navbar-end">
